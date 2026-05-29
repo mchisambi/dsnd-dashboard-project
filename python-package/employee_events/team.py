@@ -1,5 +1,6 @@
 # Import the QueryBase class
 # YOUR CODE HERE
+from .query_base import QueryBase
 
 # Import dependencies for sql execution
 #### YOUR CODE HERE
@@ -11,7 +12,12 @@
     # Set the class attribute `name`
     # to the string "team"
     #### YOUR CODE HERE
+class Team(QueryBase):
+    name = "team"
+    id_check = "team_id"
 
+    def names(self):
+        return self.query(f"SELECT team_name, team_id FROM {self.name}")
 
     # Define a `names` method
     # that receives no arguments
@@ -33,6 +39,10 @@
     # a list of tuples from an sql execution
     #### YOUR CODE HERE
 
+    def username(self, id):
+        return self.query(f"SELECT team_name FROM {self.name} WHERE {self.id_check} = {id}")
+
+
         # Query 6
         # Write an SQL query
         # that selects the team_name column
@@ -40,6 +50,7 @@
         # to only return the team name related to
         # the ID argument
         #### YOUR CODE HERE
+
 
 
     # Below is method with an SQL query
@@ -52,7 +63,7 @@
     #### YOUR CODE HERE
     def model_data(self, id):
 
-        return f"""
+        return self.pandas_query(f"""
             SELECT positive_events, negative_events FROM (
                     SELECT employee_id
                          , SUM(positive_events) positive_events
@@ -63,4 +74,4 @@
                     WHERE {self.name}.{self.name}_id = {id}
                     GROUP BY employee_id
                    )
-                """
+                """)
