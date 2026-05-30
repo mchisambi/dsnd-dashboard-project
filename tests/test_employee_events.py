@@ -1,6 +1,8 @@
 import pytest
 from pathlib import Path
 
+from report.utils import project_root
+
 # Using pathlib create a project_root
 # variable set to the absolute path
 # for the root of this project
@@ -9,6 +11,10 @@ from pathlib import Path
 # apply the pytest fixture decorator
 # to a `db_path` function
 #### YOUR CODE HERE
+
+@pytest.fixture
+def db_path():
+    return project_root / 'python-package' / 'employee_events' / 'employee_events.db'
     
     # Using the `project_root` variable
     # return a pathlib object for the `employee_events.db` file
@@ -21,7 +27,10 @@ from pathlib import Path
 # the creates the "fixture" for
 # the database's filepath
 #### YOUR CODE HERE
-    
+
+def test_db_exists(db_path):
+    assert db_path.is_file()
+
     # using the pathlib `.is_file` method
     # assert that the sqlite database file exists
     # at the location passed to the test_db_exists function
@@ -43,6 +52,8 @@ def table_names(db_conn):
 # fixture as an argument
 #### YOUR CODE HERE
 
+def test_employee_table_exists(table_names):
+    assert "employee" in table_names
     # Assert that the string 'employee'
     # is in the table_names list
     #### YOUR CODE HERE
@@ -53,6 +64,8 @@ def table_names(db_conn):
 # fixture as an argument
 #### YOUR CODE HERE
 
+def test_team_table_exists(table_names):
+    assert "team" in table_names
     # Assert that the string 'team'
     # is in the table_names list
     #### YOUR CODE HERE
@@ -62,6 +75,8 @@ def table_names(db_conn):
 # This function should receive the `table_names`
 # fixture as an argument
 #### YOUR CODE HERE
+def test_employee_events_table_exists(table_names):
+    assert "employee_events" in table_names
 
     # Assert that the string 'employee_events'
     # is in the table_names list
